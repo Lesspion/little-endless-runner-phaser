@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Phaser - Explosion</title>
+</head>
+<body>
+    <script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript">
+        var game = new Phaser.Game(800, 580, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+        var link;
+        var cursors;
+        function preload() {
+            game.load.spritesheet('explodes', 'assets/explode.png', 64, 64);
+            game.load.spritesheet('link', 'assets/Slink.png', 120, 130);
+        }
+        
+        function create() {
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+            //var test = game.add.sprite(200, 290, 'explodes');
+            //var anim = test.animations.add('complete', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], 11, true);
+            //anim.killOnComplete = false;
+            //console.log(anim);
+            //anim.play(10);
+            link = game.add.sprite(200, 290, 'link');
+            var down = link.animations.add('down', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 10, true);
+            var left = link.animations.add('left', [10, 11, 12, 13, 14, 15, 16, 17, 18], 10, true);
+            var up = link.animations.add('up', [19, 20, 21, 22, 23, 24, 25, 26, 27, 28], 10, true);
+            var right = link.animations.add('right', [29, 30, 31, 32, 33, 34, 35, 36, 37, 38], 10, true);
+            game.physics.arcade.enable(link);
+    
+            link.body.bounce.y = 0.2;
+            link.body.gravity.y = 750;
+            link.body.collideWorldBounds = true;
+            cursors = game.input.keyboard.createCursorKeys();
+        }
+        
+        function update() {
+            link.body.velocity.x = 0;
+
+            if (cursors.left.isDown)
+            {
+                //link.body.velocity.x = -150;
+
+                link.animations.play('left');
+            }
+            else if (cursors.right.isDown)
+            {
+                //link.body.velocity.x = 150;
+
+                link.animations.play('right');
+            }
+            else if (cursors.up.isDown)
+            {
+                //link.body.velocity.y = -150;
+                link.animations.play('up');
+            }
+            else if (cursors.down.isDown)
+            {
+                //link.body.velocity.y = 150;
+                link.animations.play('down');
+            }
+            else
+            {
+                link.animations.stop();
+                //link.body.velocity.y = 0;
+                link.frame = 4;
+            }
+        }
+    </script>
+</body>
+</html>
